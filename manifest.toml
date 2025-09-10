@@ -71,7 +71,7 @@ ram.runtime = "50M"
     [resources.ports]
 
     [resources.apt]
-    packages = "libvips42, libpq-dev, yarn"
+    packages = "postgresql, libvips42, libpq-dev, yarn"
 
     [resources.database]
     type = "postgresql"
