@@ -47,7 +47,7 @@ pushd "$install_dir/"
     _exec_as_app_with_ruby_node RAILS_ENV=production bundle config --local path "$install_dir/vendor/bundle"
     _exec_as_app_with_ruby_node RAILS_ENV=production bundle config deployment 'true'
     _exec_as_app_with_ruby_node RAILS_ENV=production bundle config without 'development test'
-    _exec_as_app_with_ruby_node RAILS_ENV=production bundle install --jobs 2
+    #_exec_as_app_with_ruby_node RAILS_ENV=production bundle install --jobs 2
 popd
 
 #=================================================
