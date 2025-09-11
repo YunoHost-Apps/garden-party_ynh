@@ -37,7 +37,7 @@ ynh_script_progression "Building $app..."
 
 pushd "$install_dir/"
     # Install bundler, a gems installer
-    gem update --system
+    #gem update --system
 	gem install bundler --no-document
 
     # Install dependencies
