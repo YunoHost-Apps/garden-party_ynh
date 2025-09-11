@@ -42,10 +42,8 @@ pushd "$install_dir/"
 
     # Install dependencies
     export RAILS_ENV=production 
-    bundle config deployment 'true'
-    bundle config without 'development test'
-    bundle config build.nokogiri --use-system-libraries
-    bundle install
+    ynh_exec_as_app bundle config deployment 'true'
+    ynh_exec_as_app bundle config without 'development test'
 popd
 
 #=================================================
