@@ -45,6 +45,7 @@ pushd "$install_dir/"
     bundle config deployment 'true'
     bundle config without 'development test'
     bundle config build.nokogiri --use-system-libraries
+    bundle install
 popd
 
 #=================================================
