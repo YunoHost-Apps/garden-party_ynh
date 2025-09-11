@@ -71,7 +71,7 @@ ram.runtime = "50M"
     [resources.ports]
 
     [resources.apt]
-    packages = "postgresql, libvips42, libpq-dev, yarn, libjemalloc-dev, libffi-dev, libyaml-dev, zlib1g-dev, redis-server, libxml2, libxml2-dev, libxslt, libxslt-dev"
+    packages = "postgresql, libvips42, libpq-dev, yarn, libjemalloc-dev, libffi-dev, libyaml-dev, zlib1g-dev, redis-server, libxml2, libxml2-dev, libxslt1.1, libxslt1.1-dev"
 
     [resources.database]
     type = "postgresql"
