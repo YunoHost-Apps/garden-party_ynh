@@ -41,8 +41,8 @@ yarn global add svgo@1.3.2
 pushd "$install_dir/"
 
     # Install dependencies
-    _exec_as_app_with_ruby_node RAILS_ENV=production bundle config deployment 'true'
-    _exec_as_app_with_ruby_node RAILS_ENV=production bundle config without 'development test'
+    ynh_exec_as_app RAILS_ENV=production bundle config deployment 'true'
+    ynh_exec_as_app RAILS_ENV=production bundle config without 'development test'
 popd
 
 #=================================================
@@ -51,9 +51,9 @@ popd
 ynh_script_progression "Configuring $app..."
 
 pushd "$install_dir/"
-    _exec_as_app_with_ruby_node RAILS_ENV=production bundle exec rails credentials:edit
-    _exec_as_app_with_ruby_node RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bundle exec rails db:migrate
-    _exec_as_app_with_ruby_node RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bundle exec rails db:seed
+    ynh_exec_as_app RAILS_ENV=production bundle exec rails credentials:edit
+    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bundle exec rails db:migrate
+    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bundle exec rails db:seed
 popd
 
 #=================================================
