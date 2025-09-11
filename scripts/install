@@ -39,7 +39,7 @@ ynh_script_progression "Building $app..."
 pushd "$install_dir/"
     # Install bundler, a gems installer
     #gem update --system
-	gem install bundler --no-document
+	gem install bundler --no-document -v 2.5.7
 
     # Install dependencies
     _exec_as_app_with_ruby_node RAILS_ENV=production bundle config --local path "$install_dir/vendor/bundle"
