@@ -44,7 +44,7 @@ pushd "$install_dir/"
     export RAILS_ENV=production 
     bundle config deployment 'true'
     bundle config without 'development test'
-    bundle install nokogiri
+    bundle config build.nokogiri --use-system-libraries
 popd
 
 #=================================================
