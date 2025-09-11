@@ -44,6 +44,7 @@ pushd "$install_dir/"
     ynh_exec_as_app RAILS_ENV=production bundle config --local path "$install_dir/vendor/bundle"
     ynh_exec_as_app RAILS_ENV=production bundle config deployment 'true'
     ynh_exec_as_app RAILS_ENV=production bundle config without 'development test'
+    ynh_exec_as_app RAILS_ENV=production bundle install --jobs 2
 popd
 
 #=================================================
