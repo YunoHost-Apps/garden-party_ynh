@@ -1,1 +1,1 @@
-Ceci est une fausse description des fonctionalités de l'app
+Garden Party est une application OpenSource destinée à aider les jardiniers en herbe dans la gestion de leur jardin.

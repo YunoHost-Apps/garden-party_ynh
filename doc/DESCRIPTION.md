@@ -1,1 +1,1 @@
-This is a dummy description of this app features
+Garden Party is an OpenSource application to help gardening newbies to manage their garden.
