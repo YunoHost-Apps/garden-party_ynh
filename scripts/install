@@ -52,9 +52,9 @@ popd
 ynh_script_progression "Configuring $app..."
 
 pushd "$install_dir/"
-    ynh_exec_as_app RAILS_ENV=production bin/bundle exec rails credentials:edit
-    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bin/bundle exec rails db:migrate
-    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bin/bundle exec rails db:seed
+    ynh_exec_as_app RAILS_ENV=production $install_dir/bin/bundle exec rails credentials:edit
+    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name $install_dir/bin/bundle exec rails db:migrate
+    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name $install_dir/bin/bundle exec rails db:seed
 popd
 
 #=================================================
