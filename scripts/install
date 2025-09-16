@@ -42,8 +42,8 @@ pushd "$install_dir/"
 
     # Install dependencies
     export RAILS_ENV=production 
-    ynh_exec_as_app bin/bundle config deployment 'true'
-    ynh_exec_as_app bin/bundle config without 'development test'
+    ynh_exec_as_app bundle config deployment 'true'
+    ynh_exec_as_app bundle config without 'development test'
 popd
 
 #=================================================
