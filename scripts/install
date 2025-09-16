@@ -58,9 +58,10 @@ pushd "$install_dir/"
 ls -lah $install_dir
 ls -lah $install_dir/main
 
-    ynh_exec_as_app RAILS_ENV=production .bundle exec rails credentials:edit
-    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name .bundle exec rails db:migrate
-    ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name .bundle exec rails db:seed
+    export RAILS_ENV=production
+    ynh_exec_as_app bundle exec rails credentials:edit
+    ynh_exec_as_app DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bundle exec rails db:migrate
+    ynh_exec_as_app DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name bundle exec rails db:seed
 popd
 
 #=================================================
