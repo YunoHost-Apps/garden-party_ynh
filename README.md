@@ -21,7 +21,7 @@ Help gardening newbies to manage their garden
 
 
 ## Screenshots
-![Screenshot of Garden Party](./doc/screenshots/example.jpg)
+![Screenshot of Garden Party](./doc/screenshots/garden-party.png)
 
 ## 📦 Developer info
 
