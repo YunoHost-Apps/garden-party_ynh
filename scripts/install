@@ -41,7 +41,7 @@ yarn global add svgo@1.3.2
 pushd "$install_dir/"
 
 ls -lah $install_dir
-ls -lah $install_dir/bin
+ls -lah $install_dir/main
 
     # Install dependencies
     export RAILS_ENV=production 
@@ -56,7 +56,7 @@ ynh_script_progression "Configuring $app..."
 
 pushd "$install_dir/"
 ls -lah $install_dir
-ls -lah $install_dir/bin
+ls -lah $install_dir/main
 
     ynh_exec_as_app RAILS_ENV=production $install_dir/bin/bundle exec rails credentials:edit
     ynh_exec_as_app RAILS_ENV=production DATABASE_URL=postgresql://$db_user:$db_pwd@:5432/$db_name $install_dir/bin/bundle exec rails db:migrate
