@@ -55,6 +55,7 @@ ram.runtime = "50M"
     [resources.sources.main]
     url = "https://gitlab.com/experimentslabs/garden-party/garden-party/-/package_files/228602035/download"
     sha256 = "080b52f53d4427f5f60edfa475d00b54506929e1cd22023605be4c731bbefcf4"
+    extract   = true
 
     autoupdate.strategy = "latest_gitlab_release"
 
