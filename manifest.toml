@@ -53,8 +53,8 @@ ram.runtime = "50M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://gitlab.com/api/v4/projects/22733551/packages/generic/slim-build/0.17.1/garden-party-0.17.1.tar.gz"
-    sha256 = "e5bb55a5670eef2da21a1ba9aa8b87249e75f8ae5d3b33a56b78b48695a4038c"
+    url = "https://gitlab.com/experimentslabs/garden-party/garden-party/-/package_files/228602035/download"
+    sha256 = "080b52f53d4427f5f60edfa475d00b54506929e1cd22023605be4c731bbefcf4"
 
     autoupdate.strategy = "latest_gitlab_release"
 
