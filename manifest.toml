@@ -15,7 +15,6 @@ license = "MIT"
 website = "https://garden-party.io/"
 demo = "https://garden-party.experimentslabs.com/"
 admindoc = "https://doc.garden-party.io/"
-userdoc = "https://yunohost.org/apps"
 code = "https://gitlab.com/experimentslabs/garden-party/garden-party"
 
 [integration]
@@ -78,7 +77,7 @@ ram.runtime = "50M"
         "libjemalloc-dev", "libffi-dev", "libyaml-dev", "zlib1g-dev", 
         # Other dependencies
         "libvips42", "libpq-dev", "yarn", 
-        "libpq-dev", "libyaml-dev", "libxml-dev",
+        "libpq-dev", "libyaml-dev", "libxml2-dev",
     ]
 
     [resources.database]
