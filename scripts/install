@@ -41,9 +41,14 @@ ynh_script_progression "Building $app..."
 
 pushd "$install_dir/"
     # Install dependencies
-    export RAILS_ENV=production 
-    ynh_exec_as_app bundle config deployment 'true'
-    ynh_exec_as_app bundle config without 'development test'
+    export RAILS_ENV=production
+
+    # Specify gems path (missing from the docs :/)
+    # Use "--local" to apply only for this directory
+    ynh_exec_as_app bundle config set --local path 'vendor/bundle'
+    ynh_exec_as_app bundle config set --local deployment 'true'
+    ynh_exec_as_app bundle config set --local without 'development test'
+    ynh_exec_as_app bundle install
 popd
 
 #=================================================
