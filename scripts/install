@@ -75,7 +75,7 @@ pushd "$install_dir/"
     # SECRET_KEY_BASE or the INSTANCE_SECRET_KEY_JWT: it prevent Rails from checking for valid values.
     # The downside is if you generate passwords or JWT tokens with it, they won't be valid.
     # We won't use it for the migrations but we could.
-    ynh_exec_as_app RAILS_ENV=production SECRET_KEY_BASE_DUMMY=$key_base DATABASE_URL=postgresql://$db_user:$db_pwd@localhost:5432/$db_name bundle exec rails db:migrate
+    ynh_exec_as_app RAILS_ENV=production INSTANCE_SECRET_KEY_JWT=$key SECRET_KEY_BASE_DUMMY=$key_base DATABASE_URL=postgresql://$db_user:$db_pwd@localhost:5432/$db_name bundle exec rails db:migrate
     # valid key base is required for this
     ynh_exec_as_app RAILS_ENV=production INSTANCE_SECRET_KEY_JWT=$key SECRET_KEY_BASE=0000 DATABASE_URL=postgresql://$db_user:$db_pwd@localhost:5432/$db_name bundle exec rails db:seed
 popd
