@@ -11,7 +11,7 @@ EnvironmentFile=__INSTALL_DIR__/.env
 Environment="RAILS_ENV=production"
 Environment="RAILS_MAX_THREADS=2"
 Environment="PATH=__PATH_WITH_RUBY__"
-ExecStart=/opt/rbenv/versions/__APP__/bin/bundle exec rails server --environment=production --binding=::1 --log-to-stdout
+ExecStart=/opt/rbenv/versions/__APP__/bin/bundle exec rails server --environment=production --log-to-stdout
 StandardOutput=append:/var/log/__APP__/__APP__.log
 StandardError=inherit
 
