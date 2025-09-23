@@ -86,9 +86,6 @@ ram.runtime = "300M"
 
     [resources.nodejs]
     version = "20.15.1"
-    packages= [
-      "svgo@1.3.2"
-    ]
 
     [resources.ruby]
     version = "3.3.8"
