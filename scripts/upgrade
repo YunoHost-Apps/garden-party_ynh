@@ -4,7 +4,6 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -51,23 +50,7 @@ popd
 ynh_script_progression "Configuring $app..."
 
 pushd "$install_dir/"
-    export RAILS_ENV=production
-    # Sadly, this is a manual step for first install: "credentials:edit" opens a text editor (nano/vim),
-    # so you can add some values specific to the deployment. Once the editor closes, the file is hashed
-    # with the master key, which is also specific to the deployment.
-    #
-    # It is possible to use environment variables instead. Note that these values should be different for every instance:
-    #export RAILS_MASTER_KEY=0000 # In theory, can be left as is, at it is only used to decrypt the file containing "SECRET_KEY_BASE"
-    export SECRET_KEY_BASE=$key_base # used to hash password and cookies
-    export INSTANCE_SECRET_KEY_JWT=$key # Used to generate JWT tokens
-    #ynh_exec_as_app bundle exec rails credentials:edit
-
-    # In general, you can use SECRET_KEY_BASE_DUMMY=1 for commands that don't require the
-    # SECRET_KEY_BASE or the INSTANCE_SECRET_KEY_JWT: it prevent Rails from checking for valid values.
-    # The downside is if you generate passwords or JWT tokens with it, they won't be valid.
-    # We won't use it for the migrations but we could.
     ynh_exec_as_app RAILS_ENV=production INSTANCE_SECRET_KEY_JWT=$key SECRET_KEY_BASE_DUMMY=$key_base DATABASE_URL=postgresql://$db_user:$db_pwd@localhost:5432/$db_name bundle exec rails db:migrate
-    # valid key base is required for this
     ynh_exec_as_app RAILS_ENV=production INSTANCE_SECRET_KEY_JWT=$key SECRET_KEY_BASE=0000 DATABASE_URL=postgresql://$db_user:$db_pwd@localhost:5432/$db_name bundle exec rails db:seed
 popd
 
