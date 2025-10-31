@@ -34,6 +34,9 @@ ynh_script_progression "Building $app..."
 
 pushd "$install_dir/"
     # Install dependencies
+    corepack enable
+    ynh_hide_warnings npm install -g corepack@latest
+    ynh_hide_warnings corepack prepare  yarn@latest --activate
     yarn global add svgo@1.3.2
 
     # Specify gems path (missing from the docs :/)

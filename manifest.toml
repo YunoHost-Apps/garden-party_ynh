@@ -77,7 +77,7 @@ ram.runtime = "300M"
         # Ruby dependencies
         "libjemalloc-dev", "libffi-dev", "libyaml-dev", "zlib1g-dev", 
         # Other dependencies
-        "libvips42", "libpq-dev", "yarn", 
+        "libvips42", "libpq-dev",
         "libpq-dev", "libyaml-dev", "libxml2-dev",
     ]
 
