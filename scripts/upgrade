@@ -36,7 +36,6 @@ pushd "$install_dir/"
     # Install dependencies
     ynh_hide_warnings npm install -g svgo@1.3.2
     corepack enable
-    ynh_hide_warnings npm install -g corepack@latest
     ynh_hide_warnings corepack prepare  yarn@latest --activate
 
     # Specify gems path (missing from the docs :/)
