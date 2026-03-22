@@ -5,4 +5,4 @@
 #=================================================
 
 ruby_version=3.3.8
-YNH_ARCH=$(dpkg --print-architecture)
+YNH_ARCH=x86_64
