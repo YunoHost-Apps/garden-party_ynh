@@ -61,16 +61,16 @@ fi
 #
 # The installed version is defined by `$ruby_version` which should be defined as global prior to calling this helper
 #
-# usage: ynh_ruby_install
+# usage: ynh_install_ruby
 #
 # The helper adds the appropriate, specific version of ruby to the `$PATH` variable (which
 # is preserved when calling ynh_exec_as_app). Also defines:
 #
 # - `$path_with_ruby` to be used in the systemd config (`Environment="PATH=__PATH_WITH_RUBY__"`)
 # - `$ruby_dir`, the directory containing the specific version of ruby, which may be used in the systemd config too (e.g. `ExecStart=__RUBY_DIR__/ruby foo bar`)
-ynh_ruby_install() {
+ynh_install_ruby() {
 
-    [[ -n "${ruby_version:-}" ]] || ynh_die "\$ruby_version should be defined prior to calling ynh_ruby_install"
+    [[ -n "${ruby_version:-}" ]] || ynh_die "\$ruby_version should be defined prior to calling ynh_install_ruby"
 
     # Install the requested version of Ruby
     local final_ruby_version=$("${MISE_ASSET_DIR}" ls-remote "$ruby_version")

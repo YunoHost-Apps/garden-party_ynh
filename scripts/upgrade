@@ -16,7 +16,7 @@ ynh_script_progression "Stopping $app's systemd service..."
 
 ynh_systemctl --service="$app" --action="stop"
 
-ynh_ruby_install
+ynh_install_ruby
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE

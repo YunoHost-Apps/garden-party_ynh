@@ -22,7 +22,7 @@ ynh_app_setting_set --key=key_base --value=$key_base
 redis_db=$(ynh_redis_get_free_db)
 ynh_app_setting_set --key=redis_db --value=$redis_db
 
-ynh_ruby_install
+ynh_install_ruby
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
