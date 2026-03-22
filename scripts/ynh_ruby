@@ -31,6 +31,8 @@ _ynh_load_ruby_in_path_and_other_tweaks() {
     mkdir --parents "${MISE_DATA_DIR}"
     mkdir --parents "${MISE_DATA_DIR/config}"
 
+    ynh_mise_install
+
     # Get the absolute path of this version of Ruby
     ruby_dir=$("$MISE_ASSET_DIR/mise bin-paths ruby@$ruby_version")
 
