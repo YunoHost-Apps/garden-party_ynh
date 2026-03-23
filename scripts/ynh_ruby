@@ -31,8 +31,6 @@ _ynh_ruby_load_in_path_and_other_tweaks() {
     mkdir --parents "${MISE_DATA_DIR}"
     mkdir --parents "${MISE_DATA_DIR/config}"
 
-    ynh_mise_install
-
     # Get the absolute path of this version of Ruby
     ruby_dir=$("$MISE_ASSET_DIR/mise bin-paths ruby@$ruby_version")
 
@@ -121,7 +119,7 @@ ynh_remove_ruby() {
 _ynh_cleanup_ruby() {
 
     # Remove no more needed Ruby versions
-    local installed_ruby_versions=$("${MISE_ASSET_DIR}/mise" ls ruby)
+    local installed_ruby_versions=$("${MISE_ASSET_DIR}/mise" ls ruby --json | jq -r '.[].version')
     for installed_ruby_version in $installed_ruby_versions; do
         if ! grep -qE "^ruby_version: '?$installed_ruby_version'?" /etc/yunohost/apps/*/settings.yml; then
             ynh_print_info "Removing Ruby-$installed_ruby_version"
