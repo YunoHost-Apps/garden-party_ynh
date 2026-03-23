@@ -20,7 +20,7 @@
 
 readonly MISE_DATA_DIR="/opt/mise-global/binaries"
 export MISE_DATA_DIR
-export MISE_ASSET_DIR="$MISE_DATA_DIR/bin"
+export MISE_ASSET_DIR="/opt/mise-global/mise/bin"
 
 export CONFIG_DIR="/opt/mise-global/apps/$app"
 export MISE_RUBY_COMPILE=false
