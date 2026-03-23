@@ -28,6 +28,8 @@ export MISE_GLOBAL_CONFIG_FILE="$MISE_INSTALL_DIR/config/config.toml"
 export MISE_VERSION=2026.3.10
 export MISE_ASSET_DIR="$MISE_DATA_DIR/bin"
 
+MISE_ENV=production
+
 
 ynh_mise_install() {
 
@@ -55,6 +57,4 @@ ynh_mise_install() {
         fi
         popd || exit
     fi
-
-    "$MISE_ASSET_DIR"/mise set MISE_ENV=production
 }
