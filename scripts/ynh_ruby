@@ -32,7 +32,7 @@ _ynh_ruby_load_in_path_and_other_tweaks() {
     mkdir --parents "${MISE_DATA_DIR/config}"
 
     # Get the absolute path of this version of Ruby
-    ruby_dir=$("$MISE_ASSET_DIR/mise bin-paths ruby@$ruby_version")
+    ruby_dir=$("$MISE_ASSET_DIR/mise" bin-paths "ruby@$ruby_version")
 
     if [ ! -e "$ruby_dir" ]; then
         echo "Skipping loading ruby, because it doesn't seem to be provisioned yet. This is likely to happen during restore and other specific contexts."
