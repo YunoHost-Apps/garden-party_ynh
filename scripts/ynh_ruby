@@ -26,7 +26,7 @@ export CONFIG_DIR="/opt/mise-global/apps/$app"
 export MISE_RUBY_COMPILE=false
 
 
-_ynh_load_ruby_in_path_and_other_tweaks() {
+_ynh_ruby_load_in_path_and_other_tweaks() {
 
     mkdir --parents "${MISE_DATA_DIR}"
     mkdir --parents "${MISE_DATA_DIR/config}"
@@ -56,7 +56,7 @@ _ynh_load_ruby_in_path_and_other_tweaks() {
 
 # Auto-load Ruby path tweaks if this app uses the ruby resource in the manifest
 if [ -n "${ruby_version:-}" ] && (cat "$YNH_APP_BASEDIR/manifest.toml" | toml_to_json | jq -e ".resources.ruby" > /dev/null); then
-    _ynh_load_ruby_in_path_and_other_tweaks
+    _ynh_ruby_load_in_path_and_other_tweaks
 fi
 
 # Install a specific version of Ruby using rbenv
@@ -87,9 +87,9 @@ ynh_install_ruby() {
     popd || exit
 
     # Cleanup Ruby versions
-    _ynh_ruby_cleanup
+    _ynh_cleanup_ruby
 
-    _ynh_load_ruby_in_path_and_other_tweaks
+    _ynh_ruby_load_in_path_and_other_tweaks
 }
 
 # Remove the version of Ruby used by the app.
@@ -97,7 +97,7 @@ ynh_install_ruby() {
 # This helper will also cleanup unused Ruby versions
 #
 # usage: ynh_ruby_remove
-ynh_ruby_remove() {
+ynh_remove_ruby() {
 
     [[ -n "${ruby_version:-}" ]] || ynh_die "\$ruby_version should be defined prior to calling ynh_ruby_remove"
 
@@ -108,7 +108,7 @@ ynh_ruby_remove() {
     ynh_app_setting_delete --key="ruby_version"
 
     # Cleanup Ruby versions
-    _ynh_ruby_cleanup
+    _ynh_cleanup_ruby
 }
 
 # Remove no more needed versions of Ruby used by the app.
@@ -118,7 +118,7 @@ ynh_ruby_remove() {
 # This helper will check what Ruby version are no more required,
 # and uninstall them
 # If no app uses Ruby, rbenv will be also removed.
-_ynh_ruby_cleanup() {
+_ynh_cleanup_ruby() {
 
     # Remove no more needed Ruby versions
     local installed_ruby_versions=$("${MISE_ASSET_DIR}/mise" ls ruby)
