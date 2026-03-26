@@ -19,6 +19,7 @@
 #
 
 export MISE_RUBY_COMPILE=false
+
 _ynh_load_ruby_in_path_and_other_tweaks() {
 
     # Get the absolute path of this version of ruby
@@ -75,7 +76,7 @@ ynh_ruby_install() {
 
     # Installing precompiled ruby from the $install_dir so the created mise.toml will be at the right place
     pushd "$install_dir" || ynh_die
-        ynh_hide_warnings ynh_exec_as_app MISE_CONFIG_FILE="$MISE_CONFIG_FILE" MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CACHE_DIR="$MISE_CACHE_DIR" MISE_STATE_DIR="$MISE_STATE_DIR" "$MISE_BIN_DIR"/mise use ruby@"$ruby_version"
+        ynh_hide_warnings ynh_exec_as_app MISE_RUBY_COMPILE=false MISE_CONFIG_FILE="$MISE_CONFIG_FILE" MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CACHE_DIR="$MISE_CACHE_DIR" MISE_STATE_DIR="$MISE_STATE_DIR" "$MISE_BIN_DIR"/mise use ruby@"$ruby_version"
         chown -R "$app":"$app" "$install_dir"/mise
     popd || ynh_die
 
