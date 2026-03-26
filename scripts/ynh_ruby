@@ -18,21 +18,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-readonly MISE_DATA_DIR="/opt/mise-global/binaries"
-export MISE_DATA_DIR
-export MISE_ASSET_DIR="/opt/mise-global/mise/bin"
-
-export CONFIG_DIR="/opt/mise-global/apps/$app"
 export MISE_RUBY_COMPILE=false
+_ynh_load_ruby_in_path_and_other_tweaks() {
 
-
-_ynh_ruby_load_in_path_and_other_tweaks() {
-
-    mkdir --parents "${MISE_DATA_DIR}"
-    mkdir --parents "${MISE_DATA_DIR/config}"
-
-    # Get the absolute path of this version of Ruby
-    ruby_dir=$("$MISE_ASSET_DIR/mise" bin-paths "ruby@$ruby_version")
+    # Get the absolute path of this version of ruby
+    ruby_dir=$(MISE_CONFIG_FILE="$MISE_CONFIG_FILE" MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CACHE_DIR="$MISE_CACHE_DIR" MISE_STATE_DIR="$MISE_STATE_DIR" "$MISE_BIN_DIR/mise" bin-paths "ruby@$ruby_version")
 
     if [ ! -e "$ruby_dir" ]; then
         echo "Skipping loading ruby, because it doesn't seem to be provisioned yet. This is likely to happen during restore and other specific contexts."
@@ -43,87 +33,77 @@ _ynh_ruby_load_in_path_and_other_tweaks() {
     if [[ :$PATH: != *":$ruby_dir"* ]]; then
         PATH="$ruby_dir:$PATH"
     fi
+        # Export PATH such that it's available through sudo -E / ynh_exec_as_app
+        export PATH
 
-    # Export PATH such that it's available through sudo -E / ynh_exec_as $app
-    export PATH
+        # This is in full lowercase such that it gets replaced in templates
+        # shellcheck disable=SC2034
+        path_with_ruby="$PATH"
+        # shellcheck disable=SC2034
+        PATH_with_ruby="$PATH"
+    fi
 
-    # This is in full lowercase such that it gets replaced in templates
-    path_with_ruby="$PATH"
-    PATH_with_ruby="$PATH"
 }
 
 # Auto-load Ruby path tweaks if this app uses the ruby resource in the manifest
 if [ -n "${ruby_version:-}" ] && (cat "$YNH_APP_BASEDIR/manifest.toml" | toml_to_json | jq -e ".resources.ruby" > /dev/null); then
-    _ynh_ruby_load_in_path_and_other_tweaks
+    _ynh_load_ruby_in_path_and_other_tweaks
 fi
 
-# Install a specific version of Ruby using rbenv
+# Install a specific version of Ruby using mise
 #
 # The installed version is defined by `$ruby_version` which should be defined as global prior to calling this helper
 #
-# usage: ynh_install_ruby
+# usage: ynh_ruby_install
 #
 # The helper adds the appropriate, specific version of ruby to the `$PATH` variable (which
 # is preserved when calling ynh_exec_as_app). Also defines:
 #
-# - `$path_with_ruby` to be used in the systemd config (`Environment="PATH=__PATH_WITH_RUBY__"`)
-# - `$ruby_dir`, the directory containing the specific version of ruby, which may be used in the systemd config too (e.g. `ExecStart=__RUBY_DIR__/ruby foo bar`)
-ynh_install_ruby() {
+# - `$path_with_ruby` to be used in the systemd config (`Environment="PATH=__PATH_WITH_ruby__"`)
+# - `$ruby_dir`, the directory containing the specific version of ruby, which may be used in the systemd config too (e.g. `ExecStart=__ruby_DIR__/ruby foo bar`)
+ynh_ruby_install() {
 
-    [[ -n "${ruby_version:-}" ]] || ynh_die "\$ruby_version should be defined prior to calling ynh_install_ruby"
+    [[ -n "${ruby_version:-}" ]] || ynh_die "\$ruby_version should be defined prior to calling ynh_ruby_install"
 
-    # Install the requested version of Ruby
-    local final_ruby_version=$("${MISE_ASSET_DIR}" ls-remote "$ruby_version")
+    # Install the requested version of ruby
+    local final_ruby_version=$("${MISE_BIN_DIR}"/mise ls-remote ruby@"$ruby_version" --json | jq -r '.[].version' | tail -n1 )
     ruby_version=${final_ruby_version:-$ruby_version}
     ynh_app_setting_set --key=ruby_version --value="$ruby_version"
 
-    mkdir -p "${CONFIG_DIR}"
-    # Installing precompiled ruby
-    pushd "$CONFIG_DIR" || exit
-        ynh_mise_install
-        "$MISE_ASSET_DIR"/mise use ruby@"$ruby_version"
-    popd || exit
+    ynh_mise_install
 
-    # Cleanup Ruby versions
-    _ynh_cleanup_ruby
+    touch "$MISE_CONFIG_FILE"
+    chown -R "$app":"$app" "$install_dir"/mise
 
-    _ynh_ruby_load_in_path_and_other_tweaks
+    # Installing precompiled ruby from the $install_dir so the created mise.toml will be at the right place
+    pushd "$install_dir" || ynh_die
+        ynh_hide_warnings ynh_exec_as_app MISE_CONFIG_FILE="$MISE_CONFIG_FILE" MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CACHE_DIR="$MISE_CACHE_DIR" MISE_STATE_DIR="$MISE_STATE_DIR" "$MISE_BIN_DIR"/mise use ruby@"$ruby_version"
+        chown -R "$app":"$app" "$install_dir"/mise
+    popd || ynh_die
+
+    _ynh_load_ruby_in_path_and_other_tweaks
 }
 
-# Remove the version of Ruby used by the app.
+# Remove the version of ruby used by the app.
 #
-# This helper will also cleanup unused Ruby versions
+# This helper will also cleanup unused ruby versions
 #
 # usage: ynh_ruby_remove
-ynh_remove_ruby() {
+ynh_ruby_remove() {
 
     [[ -n "${ruby_version:-}" ]] || ynh_die "\$ruby_version should be defined prior to calling ynh_ruby_remove"
-
-    # Don’t remove anything here, because mise won’t check if another app use the same ruby version and delete it anyway.
-    # Deletion will be done with _ynh_ruby_cleanup
 
     # Remove the line for this app
     ynh_app_setting_delete --key="ruby_version"
 
-    # Cleanup Ruby versions
-    _ynh_cleanup_ruby
-}
-
-# Remove no more needed versions of Ruby used by the app.
-#
-# [internal]
-#
-# This helper will check what Ruby version are no more required,
-# and uninstall them
-# If no app uses Ruby, rbenv will be also removed.
-_ynh_cleanup_ruby() {
-
-    # Remove no more needed Ruby versions
-    local installed_ruby_versions=$("${MISE_ASSET_DIR}/mise" ls ruby --json | jq -r '.[].version')
+    # Remove no more needed versions of ruby used by the app.
+    # This helper will check what ruby version are no more required,
+    # and uninstall them
+    local installed_ruby_versions=$(MISE_CONFIG_FILE="$MISE_CONFIG_FILE" MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CACHE_DIR="$MISE_CACHE_DIR" MISE_STATE_DIR="$MISE_STATE_DIR" "${MISE_BIN_DIR}/mise" ls ruby --json | jq -r '.[].version')
     for installed_ruby_version in $installed_ruby_versions; do
-        if ! grep -qE "^ruby_version: '?$installed_ruby_version'?" /etc/yunohost/apps/*/settings.yml; then
-            ynh_print_info "Removing Ruby-$installed_ruby_version"
-            "$MISE_ASSET_DIR/mise" unuse ruby@"$installed_ruby_version"
+        if [[ -n "$installed_ruby_version" ]] && ! grep -qE "^ruby_version: '?$installed_ruby_version'?" /etc/yunohost/apps/*/settings.yml; then
+            ynh_print_info "Removing ruby@$installed_ruby_version"
+            ynh_hide_warnings "$MISE_BIN_DIR/mise" unuse ruby@"$installed_ruby_version"
         fi
     done
 
