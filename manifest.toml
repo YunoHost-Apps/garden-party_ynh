@@ -74,10 +74,6 @@ ram.runtime = "300M"
     packages = [
         # Dabatases dependencies
         "postgresql", "redis-server",     
-        # Ruby dependencies
-        "clang", "libjemalloc-dev", "libffi-dev", "libyaml-dev", "make", "zlib1g-dev", 
-
-        "build-essential", "libssl-dev", "libffi-dev", "zlib1g-dev", "libyaml-dev",
 
         # Other dependencies
         "libvips42", "libpq-dev",
