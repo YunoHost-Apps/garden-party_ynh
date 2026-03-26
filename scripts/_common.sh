@@ -5,4 +5,4 @@
 #=================================================
 
 ruby_version=3.3.8
-nodejs_version=20.15.1
+nodejs_version=22
