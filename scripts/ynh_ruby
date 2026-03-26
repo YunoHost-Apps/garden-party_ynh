@@ -107,24 +107,24 @@ _ynh_ruby_cleanup() {
 
     ## LEGACY but still there until all ruby apps have migrated to mise
     # Remove no more needed Ruby versions
- #   export RBENV_ROOT="/opt/rbenv"
+    export RBENV_ROOT="/opt/rbenv"
     
-  #  if -e "$RBENV_ROOT"; then
+    if -e "$RBENV_ROOT"; then
 
-    #    local installed_ruby_versions=$("${RBENV_ROOT}/bin/rbenv" versions --bare --skip-aliases | grep -Ev '/')
-    #    for installed_ruby_version in $installed_ruby_versions; do
-    #        if ! grep -qE "^ruby_version: '?$installed_ruby_version'?" /etc/yunohost/apps/*/settings.yml; then
-     #           ynh_print_info "Removing Ruby-$installed_ruby_version"
-     #           "$RBENV_ROOT/bin/rbenv" uninstall --force "$installed_ruby_version"
-    #        fi
-    #    done
+        local installed_ruby_versions=$("${RBENV_ROOT}/bin/rbenv" versions --bare --skip-aliases | grep -Ev '/')
+        for installed_ruby_version in $installed_ruby_versions; do
+            if ! grep -qE "^ruby_version: '?$installed_ruby_version'?" /etc/yunohost/apps/*/settings.yml; then
+                ynh_print_info "Removing Ruby-$installed_ruby_version"
+                "$RBENV_ROOT/bin/rbenv" uninstall --force "$installed_ruby_version"
+            fi
+        done
 
         # If no app uses Ruby anymore
-   #     if ! grep -q "^ruby_version:" /etc/yunohost/apps/*/settings.yml; then
-   #         # Remove rbenv environment configuration
-   #         ynh_print_info "Removing rbenv"
-#            ynh_safe_rm "$RBENV_ROOT"
-#            ynh_safe_rm "/etc/profile.d/rbenv.sh"
- #       fi
-#    fi
+        if ! grep -q "^ruby_version:" /etc/yunohost/apps/*/settings.yml; then
+            # Remove rbenv environment configuration
+            ynh_print_info "Removing rbenv"
+            ynh_safe_rm "$RBENV_ROOT"
+            ynh_safe_rm "/etc/profile.d/rbenv.sh"
+        fi
+    fi
 }
