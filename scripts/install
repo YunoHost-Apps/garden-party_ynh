@@ -8,6 +8,7 @@ source _common.sh
 source /usr/share/yunohost/helpers
 source ynh_mise
 source ynh_ruby
+source ynh_nodejs
 
 #=================================================
 # INITIALIZE AND STORE SETTINGS
@@ -23,6 +24,7 @@ redis_db=$(ynh_redis_get_free_db)
 ynh_app_setting_set --key=redis_db --value=$redis_db
 
 ynh_ruby_install
+ynh_nodejs_install
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
