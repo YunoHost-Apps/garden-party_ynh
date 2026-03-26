@@ -41,8 +41,6 @@ _ynh_load_ruby_in_path_and_other_tweaks() {
         path_with_ruby="$PATH"
         # shellcheck disable=SC2034
         PATH_with_ruby="$PATH"
-    fi
-
 }
 
 # Auto-load Ruby path tweaks if this app uses the ruby resource in the manifest
