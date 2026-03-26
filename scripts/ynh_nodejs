@@ -77,9 +77,6 @@ ynh_nodejs_install() {
 
     ynh_mise_install
 
-    touch "$MISE_CONFIG_FILE"
-    chown -R "$app":"$app" "$MISE_INSTALL_DIR/apps/$app"
-
     # Installing precompiled nodejs from the $install_dir so the created mise.toml will be at the right place
     pushd "$install_dir" || ynh_die
         # The path has to be set for npm to now where to find node
