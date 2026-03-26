@@ -75,7 +75,7 @@ ynh_ruby_install() {
     chown -R "$app":"$app" "$MISE_INSTALL_DIR/$app"
 
     # Installing precompiled ruby from the $install_dir so the created mise.toml will be at the right place
-    pushd "$MISE_INSTALL_DIR/" || ynh_die
+    pushd "$install_dir" || ynh_die
         ynh_hide_warnings env MISE_RUBY_COMPILE=false MISE_CONFIG_FILE="$MISE_CONFIG_FILE" MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CACHE_DIR="$MISE_CACHE_DIR" MISE_STATE_DIR="$MISE_STATE_DIR" "$MISE_BIN_DIR"/mise use ruby@"$ruby_version"
         chown -R "$app":"$app" "$MISE_INSTALL_DIR/$app"
     popd || ynh_die
