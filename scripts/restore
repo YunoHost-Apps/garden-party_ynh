@@ -31,6 +31,9 @@ ynh_script_progression "Restoring the PostgreSQL database..."
 
 ynh_psql_db_shell  < "./db.sql"
 
+ynh_ruby_install
+ynh_nodejs_install
+
 pushd "$install_dir/"
     # Specify gems path (missing from the docs :/)
     # Use "--local" to apply only for this directory
