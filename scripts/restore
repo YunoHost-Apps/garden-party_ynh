@@ -10,6 +10,9 @@ source ../settings/scripts/ynh_mise
 source ../settings/scripts/ynh_ruby
 source ../settings/scripts/ynh_nodejs
 
+ynh_ruby_install
+ynh_nodejs_install
+
 #=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
@@ -35,9 +38,6 @@ ynh_script_progression "Restoring the PostgreSQL database..."
 ynh_script_progression "Restoring the PostgreSQL database..."
 
 ynh_psql_db_shell  < "./db.sql"
-
-ynh_ruby_install
-ynh_nodejs_install
 
 pushd "$install_dir/"
     # Specify gems path (missing from the docs :/)
