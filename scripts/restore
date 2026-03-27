@@ -4,7 +4,11 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
+source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
+source ../settings/scripts/ynh_mise
+source ../settings/scripts/ynh_ruby
+source ../settings/scripts/ynh_nodejs
 
 #=================================================
 # RESTORE THE APP MAIN DIR
@@ -26,6 +30,19 @@ ynh_restore "$data_dir"
 ynh_script_progression "Restoring the PostgreSQL database..."
 
 ynh_psql_db_shell  < "./db.sql"
+
+ynh_ruby_install
+ynh_nodejs_install
+
+pushd "$install_dir/"
+    # Specify gems path (missing from the docs :/)
+    # Use "--local" to apply only for this directory
+    ynh_exec_as_app RAILS_ENV=production bundle config set --local path 'vendor/bundle'
+    ynh_exec_as_app RAILS_ENV=production bundle config set --local deployment 'true'
+    ynh_exec_as_app RAILS_ENV=production bundle config set --local without 'development test'
+    ynh_hide_warnings ynh_exec_as_app RAILS_env=production bundle install
+popd
+
 
 #=================================================
 # RESTORE SYSTEM CONFIGURATION
