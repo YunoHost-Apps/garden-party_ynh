@@ -6,7 +6,7 @@ id = "garden-party"
 name = "Garden Party"
 description.en = "Help gardening newbies to manage their garden"
 
-version = "0.20.0~ynh1"
+version = "0.21.0~ynh1"
 
 maintainers = ["Thovi98"]
 
@@ -49,8 +49,8 @@ ram.runtime = "300M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://gitlab.com/api/v4/projects/22733551/packages/generic/slim-build/0.20.0/garden-party-0.20.0.tar.gz"
-    sha256 = "38aebd08fb64adba39fa2c1487fe95564db9a998a1823bb40f9da8a461953eba"
+    url = "https://gitlab.com/api/v4/projects/22733551/packages/generic/slim-build/0.21.0/garden-party-0.21.0.tar.gz"
+    sha256 = "31e7b24731f369da55621d3245552d286001c1991f7ed2950d838c8f0e9037b2"
     extract   = true
 
     autoupdate.strategy = "latest_gitlab_release"
@@ -84,4 +84,4 @@ ram.runtime = "300M"
     version = "20.15.1"
 
     [resources.ruby]
-    version = "3.3.8"
+    version = "3.3.14"
